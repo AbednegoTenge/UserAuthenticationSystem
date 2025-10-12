@@ -29,4 +29,10 @@ public class UserController {
         Users newUser = service.register(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<Users> login(@RequestBody Users user) {
+        Users existingUser = service.verifyUser(user);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
 }

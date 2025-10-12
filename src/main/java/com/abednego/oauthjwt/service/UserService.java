@@ -26,4 +26,12 @@ public class UserService {
         user.setPassword(encoder.encode(user.getPassword()));
         return repo.save(user);
     }
+
+    public Users verifyUser(Users user) {
+        Users existingUser = repo.findByEmail(user.getEmail());
+        if (existingUser == null || !encoder.matches(user.getPassword(), existingUser.getPassword())) {
+            throw new RuntimeException("Invalid email or password");
+        }
+        return existingUser;
+    }
 }
