@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 public class UserController {
     private final UserService service;
@@ -31,8 +34,16 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Users> login(@RequestBody Users user) {
-        Users existingUser = service.verifyUser(user);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+    public ResponseEntity<Map<String, String>> login(@RequestBody Users user) {
+        String token = service.verifyUser(user);
+
+        if (token != null && !token.equals("Invalid username or password")) {
+            Map<String, String> response = new HashMap<>();
+            response.put("token", token);
+            return ResponseEntity.ok(response);
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("error", "Invalid username or password"));
     }
 }
