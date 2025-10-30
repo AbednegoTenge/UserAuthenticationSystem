@@ -5,15 +5,15 @@ import com.abednego.oauthjwt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
+@Controller
 public class UserController {
     private final UserService service;
 
@@ -23,8 +23,8 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public String home() {
-        return "Welcome to the Home Page!";
+    public ResponseEntity<String> home() {
+        return ResponseEntity.ok("Welcome to the Home Page!");
     }
 
     @PostMapping("/register")
